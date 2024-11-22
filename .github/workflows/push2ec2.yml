@@ -19,3 +19,5 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+        with:
+          args: "-avz --delete"  # This will delete files from the target that are not in the source
