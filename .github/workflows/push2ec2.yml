@@ -22,7 +22,5 @@ jobs:
       
       - name: Sync files
         run: |
-          rsync -avz --delete \
-          -e "ssh -i ${{ secrets.SSH_PRIVATE_KEY }}" \
-          ./  ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
+          rsync -avz --delete
                 
