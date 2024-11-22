@@ -1,24 +1,28 @@
 name: Push-to-EC2
-
-# Trigger deployment only on push to master branch
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
-    name: Deploy to EC2 on master branch push
+    name: Deploy Changed Files to EC2
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch full history for diff
 
-      - name: Deploy to Server 1
+      - name: Get changed files
+        id: changed-files
+        run: |
+          echo "files=$(git diff --name-only HEAD^ HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Deploy changed files
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+          ARGS: "-avz --no-whole-file"  # Sync only changed files
