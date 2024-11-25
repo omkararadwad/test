@@ -20,4 +20,4 @@ jobs:
 
     - name: Run deployment script on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ec2_user@3.85.231.35 "bash /home/ec2-user/test/deploy_project.sh"
+        ssh -o StrictHostKeyChecking=no ec2-user@3.85.231.35 "bash /home/ec2-user/test/deploy_project.sh"
